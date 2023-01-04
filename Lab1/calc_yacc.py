@@ -8,9 +8,12 @@ import ply.yacc as yacc
 # Get the token map from the lexer.  This is required.
 from calc_lex import tokens
 
+# print(p)
+
 def p_expression_plus(p):
     'expression : expression PLUS term'
     p[0] = p[1] + p[3]
+    # print(p)
 
 def p_expression_minus(p):
     'expression : expression MINUS term'
@@ -51,10 +54,22 @@ def p_expression_unaryminus(p):
 def p_expression_pow(p):
     'expression : expression POW term'
     p[0] = p[1] ** p[3]
+    # print(p)
+    for i in p:
+        print(i)
+    # print(p[1], p[3])
 
 # Error rule for syntax errors
 def p_error(p):
     print("Syntax error in input!")
+
+
+# set the precedence of operators
+precedence = (
+     ('left', 'PLUS', 'MINUS'),
+     ('left', 'TIMES', 'DIVIDE', 'MOD'),
+     ('right', 'POW'),
+ )
 
 
 # Build the parser
